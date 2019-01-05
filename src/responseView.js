@@ -1,6 +1,5 @@
+'use strict'
 const vscode = require('vscode');
-
-
 
 function setContent( content, options ) {
     options = options || {
@@ -10,7 +9,7 @@ function setContent( content, options ) {
     return vscode.workspace.openTextDocument( {
             language: options.language
         } )
-        .then( doc => vscode.window.showTextDocument( doc ) )
+        .then( doc => vscode.window.showTextDocument( doc,vscode.ViewColumn.Beside ) )
         .then( editor => {
             let editBuilder = textEdit => {
                 textEdit.insert( new vscode.Position( 0, 0 ), String( content ) );
