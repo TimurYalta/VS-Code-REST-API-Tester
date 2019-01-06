@@ -2,9 +2,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
-const view = require('./responseView.js');
+const view = require('./view.js');
 const request = require('./requests.js');
 const parser = require('./utils.js')
+const commands = require('./commands');
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -22,33 +23,30 @@ function activate(context) {
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
+	context.subscriptions.push(vscode.commands.registerCommand('extension.helloWorld', function () {
+		vscode.window.showInformationMessage('Hello GodDamn World!');
+		commands.performRequest('http://httpbin.org/post', {method:'POST', headers:{'Access-Control-Allow-Origin': '*',}, body:'12412515'});
+	}));
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello GodDamn World!')
-		console.log(`a${12}32`)
-		let bodyy;
-		request.sendRequest('https://postman-echo.com/get?foo1=bar1&foo2=bar2')
-		.then(body => {
-			return parser.parseResponse(body);
-		})
-		.then((string)=>{
-			view.setContent(string);
-		})
-		.catch(err => console.log(err));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.sendGET', function () {
+		vscode.window.showInformationMessage('GET sent!');
+		commands.sendGET();
+	}));
 
-	});
+	context.subscriptions.push(vscode.commands.registerCommand('extension.sendPOST', function () {
+		vscode.window.showInformationMessage('POST sent!');
+		commands.sendPOST();
+	}));
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(vscode.commands.registerCommand('extension.sendRequest', function () {
+		vscode.window.showInformationMessage('Request sent!');
+	}));
 }
 exports.activate = activate;
 
-// this method is called when your extension is deactivated
 function deactivate() {}
 
 module.exports = {
 	activate,
 	deactivate
 }
-//'https://postman-echo.com/get?foo1=bar1&foo2=bar2

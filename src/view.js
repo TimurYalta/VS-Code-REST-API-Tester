@@ -1,7 +1,7 @@
 'use strict'
 const vscode = require('vscode');
 
-function setContent( content, options ) {
+function renderContent( content, options ) {
     options = options || {
         language: 'text'
     };
@@ -23,4 +23,12 @@ function setContent( content, options ) {
         } );
 }
 
-module.exports.setContent=setContent;
+function renderError(message){
+    return vscode.window.showErrorMessage(message);
+}
+
+
+module.exports={
+    renderContent,
+    renderError
+};

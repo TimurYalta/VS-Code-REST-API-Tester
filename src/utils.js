@@ -1,5 +1,5 @@
 const parseResponse = (response) => {
-    strings = [];
+    const strings = [];
     strings.push(`HTTP/1.1 ${response.status} ${response.statusText}`);
     strings.push(`\nHeaders:\n`);
     response.headers.forEach((element,key) => {
@@ -28,11 +28,7 @@ const parseResponse = (response) => {
                     });
                 });
     }
-    // const body = response.text();
-    // strings.push(body); 
-    // return strings.join("\n\n");
 }
 module.exports = {
     parseResponse
 }
-//response.headers.get('content-type').includes("html") ? response.body.text() :response.body.json();

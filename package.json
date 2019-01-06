@@ -10,7 +10,10 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:extension.helloWorld",
+		"onCommand:extension.sendRequest",
+		"onCommand:extension.sendGET",
+		"onCommand:extension.sendPOST"
 	],
 	"main": "./src/extension.js",
 	"contributes": {
@@ -18,8 +21,28 @@
 			{
 				"command": "extension.helloWorld",
 				"title": "Hello World"
+			},
+			{
+				"command": "extension.sendRequest",
+				"title": "Send Request"
+			},
+			{
+				"command": "extension.sendGET",
+				"title": "Send GET request"
+			},
+			{
+				"command": "extension.sendPOST",
+				"title": "Send POST request"
 			}
-		]
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "extension.sendRequest",
+					"group": "YourGroup@1"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"postinstall": "node ./node_modules/vscode/bin/install",
