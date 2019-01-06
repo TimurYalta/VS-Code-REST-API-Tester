@@ -38,8 +38,9 @@ function activate(context) {
 		commands.sendPOST();
 	}));
 
-	context.subscriptions.push(vscode.commands.registerCommand('extension.sendRequest', function () {
+	context.subscriptions.push(vscode.commands.registerCommand('extension.sendSelRequest', function () {
 		vscode.window.showInformationMessage('Request sent!');
+		commands.sendToSelected();
 	}));
 }
 exports.activate = activate;

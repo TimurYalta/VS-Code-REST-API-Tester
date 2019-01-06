@@ -11,7 +11,7 @@
 	],
 	"activationEvents": [
 		"onCommand:extension.helloWorld",
-		"onCommand:extension.sendRequest",
+		"onCommand:extension.sendSelRequest",
 		"onCommand:extension.sendGET",
 		"onCommand:extension.sendPOST"
 	],
@@ -23,7 +23,7 @@
 				"title": "Hello World"
 			},
 			{
-				"command": "extension.sendRequest",
+				"command": "extension.sendSelRequest",
 				"title": "Send Request"
 			},
 			{
@@ -38,7 +38,7 @@
 		"menus": {
 			"editor/context": [
 				{
-					"command": "extension.sendRequest",
+					"command": "extension.sendSelRequest",
 					"group": "YourGroup@1"
 				}
 			]
