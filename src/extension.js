@@ -2,9 +2,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
-const view = require('./view.js');
-const request = require('./requests.js');
-const parser = require('./utils.js')
 const commands = require('./commands');
 
 // this method is called when your extension is activated
@@ -41,6 +38,19 @@ function activate(context) {
 	context.subscriptions.push(vscode.commands.registerCommand('extension.sendSelRequest', function () {
 		vscode.window.showInformationMessage('Request sent!');
 		commands.sendToSelected();
+	}));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.openRequestFile', function () {
+		vscode.window.showInformationMessage('wtf!');
+		commands.openRequestFile();
+		
+	}));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.startRequestFile', function () {
+		vscode.window.showInformationMessage('Stating!');
+		commands.startRequestFile();
+	}));
+	context.subscriptions.push(vscode.commands.registerCommand('extension.createRequestFile', function () {
+		vscode.window.showInformationMessage('Creating!');
+		commands.createRequestFile();
 	}));
 }
 exports.activate = activate;

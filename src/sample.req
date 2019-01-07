@@ -1,0 +1,49 @@
+POST http://httpbin.org/post
+
+
+HEADERS
+{
+    "Content-Type": "application/json"
+}
+
+
+BODY
+""
+
+### //End of request
+
+GET http://github.com/
+
+
+HEADERS
+{
+    "Content-Type": "application/json"
+}
+
+### //End of request
+
+POST http://vk.com/
+
+
+HEADERS
+{
+    "Content-Type": "application/json"
+}
+
+BODY
+"asdadsdadas"
+### //End of request
+
+POST http://httpbin.org/post
+
+
+HEADERS
+{
+    "Content-Type": "application/json"
+}
+
+
+BODY
+"LELELELLELE"
+
+### //End of request

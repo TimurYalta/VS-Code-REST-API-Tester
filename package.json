@@ -13,7 +13,10 @@
 		"onCommand:extension.helloWorld",
 		"onCommand:extension.sendSelRequest",
 		"onCommand:extension.sendGET",
-		"onCommand:extension.sendPOST"
+		"onCommand:extension.sendPOST",
+		"onCommand:extension.openRequestFile",
+		"onCommand:extension.startRequestFile",
+		"onCommand:extension.createRequestFile"
 	],
 	"main": "./src/extension.js",
 	"contributes": {
@@ -33,6 +36,18 @@
 			{
 				"command": "extension.sendPOST",
 				"title": "Send POST request"
+			},
+			{
+				"command": "extension.openRequestFile",
+				"title": "Open request file"
+			},
+			{
+				"command": "extension.startRequestFile",
+				"title": "Start request file"
+			},
+			{
+				"command": "extension.createRequestFile",
+				"title": "Create request file"
 			}
 		],
 		"menus": {

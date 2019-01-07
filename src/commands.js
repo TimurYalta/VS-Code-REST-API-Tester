@@ -1,5 +1,4 @@
 const vscode = require('vscode');
-
 const regExp = require('./urlRegEx.js').regExp;
 const request = require('./requests.js');
 const view = require('./view.js');
@@ -9,7 +8,7 @@ const utils = require('./utils.js');
 const performRequest = (url, options) => {
     request.sendRequest(url, options)
         .then(body => {
-            return utils.parseResponse(body);
+            return utils.parseResponse(body, {url, options});
         })
         .then((string) => {
             view.renderContent(string);
@@ -121,9 +120,61 @@ const sendToSelected = () => {
         .catch((e) => { view.renderError(e) });
 }
 
+const openRequestFile = () =>{
+    vscode.window.showOpenDialog({canSelectFiles:true, canSelectFolders: false, canSelectMany:false})
+    .then((file)=>{
+        const uri= file[0].fsPath;
+        vscode.workspace.openTextDocument(file[0])
+        .then( doc => vscode.window.showTextDocument( doc,vscode.ViewColumn.Beside ) )
+        .then(
+            ()=>{
+                const requests = utils.requestParser(uri);
+                for(let req of requests){
+                    performRequest(req.URI,req.options);
+                }
+            }
+        );
+
+    })
+    .catch((e)=>{view.renderError(e)});
+}
+
+const startRequestFile = () => {
+    const filename = vscode.window.activeTextEditor.document.fileName;
+    const isReqFile = filename.match(/(.req)$/);
+    if(!isReqFile){
+        view.renderError("Invalid file extension");
+    }
+    else{
+        const requests = utils.requestParser(filename);
+        for(let req of requests){
+            performRequest(req.URI,req.options);
+        }
+    }
+}
+
+const createRequestFile = () => {
+    // const filename = vscode.window.activeTextEditor.document.fileName;
+    // const isReqFile = filename.match(/(.req)$/);
+    // if(!isReqFile){
+    //     view.renderError("Invalid file extension");
+    // }
+    // else{
+    //     const requests = utils.requestParser(filename);
+    //     for(let req of requests){
+    //         performRequest(req.URI,req.options);
+    //     }
+    // }
+    view.renderContent(utils.getReqSnippet());
+}
+
+
 module.exports = {
     performRequest,
     sendGET,
     sendPOST,
-    sendToSelected
+    sendToSelected,
+    openRequestFile,
+    startRequestFile,
+    createRequestFile
 };
