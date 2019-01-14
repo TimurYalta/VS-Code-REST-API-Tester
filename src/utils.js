@@ -17,7 +17,7 @@ const parseResponse = (response, opt) => {
         return response.text()
                 .then((res)=>{
                     strings.push(res); 
-                    return new Promise((resolve,reject)=>{
+                    return new Promise((resolve)=>{
                         resolve(strings.join("\n\n"));
                     });
                 });
@@ -27,7 +27,7 @@ const parseResponse = (response, opt) => {
                 .then((res)=>{
 
                     strings.push(JSON.stringify(res,null,2)); 
-                    return new Promise((resolve,reject)=>{
+                    return new Promise((resolve)=>{
                         resolve(strings.join("\n\n"));
                     });
                 });

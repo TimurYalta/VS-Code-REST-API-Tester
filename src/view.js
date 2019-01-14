@@ -1,5 +1,6 @@
 'use strict'
 const vscode = require('vscode');
+const str = require("./strings.js")
 
 function renderContent( content, options ) {
     options = options || {
@@ -23,33 +24,30 @@ function renderContent( content, options ) {
         } );
 }
 
+
 function renderError(message){
     return vscode.window.showErrorMessage(message);
 }
 
 function askForAdditionalInfo(){
     return vscode.window.showQuickPick(
-        ["Yes", "No"],
+        [str.YES, str.NO],
         { canPickMany: false,
-            placeHolder: "Would you like to add additional info to request?",
+            placeHolder: str.QUERY_INFO,
             ignoreFocusOut: true 
         });
 }
 
 function askForRequestMethod(){
     return vscode.window.showQuickPick(
-        ["POST", "GET"],
+        [str.POST, str.GET],
         { canPickMany: false,
-            placeHolder: "Choose request method",
+            placeHolder: str.QUERY_METHOD,
             ignoreFocusOut: true 
         });
 }
-
-function askForHeaders(){
-    return vscode.window.showInputBox({ prompt: "Enter the headers in JSON format(optionally)", ignoreFocusOut: true });
-}
-function askForBody(){
-    return vscode.window.showInputBox({ prompt: "Enter the body of POST request(optionally)", ignoreFocusOut: true });
+function askInput(quest){
+    return vscode.window.showInputBox({ prompt: quest, ignoreFocusOut: true });
 }
 
 module.exports={
@@ -57,6 +55,5 @@ module.exports={
     renderError,
     askForAdditionalInfo,
     askForRequestMethod,
-    askForHeaders,
-    askForBody
+    askInput
 };

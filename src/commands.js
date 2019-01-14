@@ -3,6 +3,7 @@ const regExp = require('./urlRegEx.js').regExp;
 const request = require('./requests.js');
 const view = require('./view.js');
 const utils = require('./utils.js');
+const str= require('./strings.js')
 
 
 const performRequest = (url, options) => {
@@ -17,22 +18,22 @@ const performRequest = (url, options) => {
 };
 
 const sendGET = () => {
-    vscode.window.showInputBox({ prompt: "Enter the URI to send GET request to (with parameters included)", ignoreFocusOut: true })
+    view.askInput(str.ENTER_GET_URL)
         .then((uri) => {
             if (!uri || !uri.match(regExp)) {
-                view.renderError("Incorrect URI!!")
+                view.renderError(str.URI_ERROR)
                 return;
             }
 
-            view.askForHeaders()
+            view.askInput(str.ENTER_HEADERS)
                 .then((headers) => {
-                    const options = { method: 'GET' };
+                    const options = { method: str.GET};
                     if (headers) {
                         try {
                             options.headers = JSON.parse(headers);
                         }
                         catch (e) {
-                            view.renderError("Incorrect JSON format!");
+                            view.renderError(str.JSON_ERROR);
                             return;
                         }
                     }
@@ -42,26 +43,26 @@ const sendGET = () => {
 };
 
 const sendPOST = () => {
-    vscode.window.showInputBox({ prompt: "Enter the URI to send POST request to (with parameters included)", ignoreFocusOut: true })
+    view.askInput(str.ENTER_POST_URL)
         .then((uri) => {
             if (!uri || !uri.match(regExp)) {
-                view.renderError("Incorrect URI!!")
+                view.renderError(str.URI_ERROR)
                 return;
             }
-            view.askForHeaders()
+            view.askInput(str.ENTER_HEADERS)
                 .then((headers) => {
-                    const options = { method: 'POST' };
+                    const options = { method: str.POST };
                     if (headers) {
                         try {
                             options.headers = JSON.parse(headers);
                         }
                         catch (e) {
-                            view.renderError("Incorrect JSON format!");
+                            view.renderError(str.JSON_ERROR);
                             return;
                         }
                     }
 
-                    view.askForBody()
+                    view.askInput(str.ENTER_POST_BODY)
                         .then((body) => {
                             if (body) {
                                 options.body = body;
@@ -77,29 +78,31 @@ const sendToSelected = () => {
     const uri = vscode.window.activeTextEditor.document.getText(vscode.window.activeTextEditor.selection);
 
     if (!uri || !uri.match(regExp)) {
-        view.renderError("Invalid URI!");
+        view.renderError(str.URI_ERROR);
         return;
     }
+    let options = {method:str.GET};
     view.askForAdditionalInfo()
         .then(
             (res) => {
-                if (res == "Yes") {
+                
+                if (res == str.YES) {
                     view.askForRequestMethod()
                         .then((res) => {
-                            const options = {method:res};
-                            view.askForHeaders()
+                            options.method=res;
+                            view.askInput(str.ENTER_HEADERS)
                             .then((headers) => {
                                 if (headers) {
                                     try {
                                         options.headers = JSON.parse(headers);
                                     }
                                     catch (e) {
-                                        view.renderError("Incorrect JSON format!");
+                                        view.renderError(str.JSON_ERROR);
                                         return;
                                     }
                                 }
-                                if(res == "POST"){
-                                    view.askForBody()
+                                if(res == str.POST){
+                                    view.askInput(str.ENTER_POST_BODY)
                                     .then((body) => {
                                         if (body) {
                                             options.body = body;
@@ -108,13 +111,13 @@ const sendToSelected = () => {
                                     })
                                 }
                                 else{
-                                    performRequest(uri, options);
+                                    performRequest(uri,options);
                                 }
                             });
                         });
                 }
                 else {
-                    performRequest(uri);
+                    performRequest(uri,options);
                 }
             })
         .catch((e) => { view.renderError(e) });
@@ -124,14 +127,15 @@ const openRequestFile = () =>{
     vscode.window.showOpenDialog({canSelectFiles:true, canSelectFolders: false, canSelectMany:false})
     .then((file)=>{
         const uri= file[0].fsPath;
+        if(!uri.match(/(.req)$/)){
+            view.renderError(str.EXTENSION_ERROR);
+            return;
+        }
         vscode.workspace.openTextDocument(file[0])
         .then( doc => vscode.window.showTextDocument( doc,vscode.ViewColumn.Beside ) )
         .then(
             ()=>{
-                const requests = utils.requestParser(uri);
-                for(let req of requests){
-                    performRequest(req.URI,req.options);
-                }
+                startRequestFile();
             }
         );
 
@@ -140,10 +144,18 @@ const openRequestFile = () =>{
 }
 
 const startRequestFile = () => {
-    const filename = vscode.window.activeTextEditor.document.fileName;
+    let filename;
+    try{
+        filename = vscode.window.activeTextEditor.document.fileName;
+    }
+    catch(e){
+        view.renderError(str.NO_FILE_ERROR);
+        return
+    }
+    
     const isReqFile = filename.match(/(.req)$/);
     if(!isReqFile){
-        view.renderError("Invalid file extension");
+        view.renderError(str.EXTENSION_ERROR);
     }
     else{
         const requests = utils.requestParser(filename);
@@ -154,17 +166,6 @@ const startRequestFile = () => {
 }
 
 const createRequestFile = () => {
-    // const filename = vscode.window.activeTextEditor.document.fileName;
-    // const isReqFile = filename.match(/(.req)$/);
-    // if(!isReqFile){
-    //     view.renderError("Invalid file extension");
-    // }
-    // else{
-    //     const requests = utils.requestParser(filename);
-    //     for(let req of requests){
-    //         performRequest(req.URI,req.options);
-    //     }
-    // }
     view.renderContent(utils.getReqSnippet());
 }
 
