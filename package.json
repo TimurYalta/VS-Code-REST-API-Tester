@@ -10,7 +10,6 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld",
 		"onCommand:extension.sendSelRequest",
 		"onCommand:extension.sendGET",
 		"onCommand:extension.sendPOST",

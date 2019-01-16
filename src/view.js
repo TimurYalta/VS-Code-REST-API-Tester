@@ -2,7 +2,7 @@
 const vscode = require('vscode');
 const str = require("./strings.js")
 
-function renderContent( content, options ) {
+const renderContent = ( content, options ) => {
     options = options || {
         language: 'text'
     };
@@ -25,11 +25,11 @@ function renderContent( content, options ) {
 }
 
 
-function renderError(message){
+const renderError = (message) => {
     return vscode.window.showErrorMessage(message);
 }
 
-function askForAdditionalInfo(){
+const askForAdditionalInfo = () => {
     return vscode.window.showQuickPick(
         [str.YES, str.NO],
         { canPickMany: false,
@@ -38,7 +38,7 @@ function askForAdditionalInfo(){
         });
 }
 
-function askForRequestMethod(){
+const askForRequestMethod = () => {
     return vscode.window.showQuickPick(
         [str.POST, str.GET],
         { canPickMany: false,
@@ -46,7 +46,8 @@ function askForRequestMethod(){
             ignoreFocusOut: true 
         });
 }
-function askInput(quest){
+
+const askInput = (quest) => {
     return vscode.window.showInputBox({ prompt: quest, ignoreFocusOut: true });
 }
 

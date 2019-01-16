@@ -12,5 +12,6 @@ module.exports = {
     QUERY_INFO: "Would you like to add additional info to request?",
     QUERY_METHOD: "Choose request method",
     YES:"YES",
-    NO:"NO"
+    NO:"NO",
+    NO_EDITOR_ERROR:"No opened editor"
 }

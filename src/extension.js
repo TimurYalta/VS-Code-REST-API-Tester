@@ -12,19 +12,6 @@ const commands = require('./commands');
  */
 function activate(context) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "rest-api-tester" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-
-	// context.subscriptions.push(vscode.commands.registerCommand('extension.helloWorld', function () {
-	// 	vscode.window.showInformationMessage('Hello GodDamn World!');
-	// 	commands.performRequest('http://httpbin.org/post', {method:'POST', headers:{'Access-Control-Allow-Origin': '*',}, body:'12412515'});
-	// }));
-
 	context.subscriptions.push(vscode.commands.registerCommand('extension.sendGET', function () {
 		commands.sendGET();
 	}));
@@ -55,3 +42,18 @@ module.exports = {
 	activate,
 	deactivate
 }
+
+
+
+	// The command has been defined in the package.json file
+	// Now provide the implementation of the command with  registerCommand
+	// The commandId parameter must match the command field in package.json
+
+	// context.subscriptions.push(vscode.commands.registerCommand('extension.helloWorld', function () {
+	// 	vscode.window.showInformationMessage('Hello GodDamn World!');
+	// 	commands.performRequest('http://httpbin.org/post', {method:'POST', headers:{'Access-Control-Allow-Origin': '*',}, body:'12412515'});
+	// }));
+	
+	// Use the console to output diagnostic information (console.log) and errors (console.error)
+	// This line of code will only be executed once when your extension is activated
+	// console.log('Congratulations, your extension "rest-api-tester" is now active!');

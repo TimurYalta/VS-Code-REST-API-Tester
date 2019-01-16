@@ -75,7 +75,14 @@ const sendPOST = () => {
 
 const sendToSelected = () => {
 
-    const uri = vscode.window.activeTextEditor.document.getText(vscode.window.activeTextEditor.selection);
+    let uri;
+    try{
+        uri = vscode.window.activeTextEditor.document.getText(vscode.window.activeTextEditor.selection);
+    }
+    catch(e){
+        view.renderError(str.NO_EDITOR_ERROR);
+        return;
+    }
 
     if (!uri || !uri.match(regExp)) {
         view.renderError(str.URI_ERROR);
@@ -120,7 +127,10 @@ const sendToSelected = () => {
                     performRequest(uri,options);
                 }
             })
-        .catch((e) => { view.renderError(e) });
+        .catch((e) => { 
+            view.renderError(e); 
+            return; 
+        });
 }
 
 const openRequestFile = () =>{

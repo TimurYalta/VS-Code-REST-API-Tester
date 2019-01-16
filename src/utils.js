@@ -1,4 +1,5 @@
 const view = require('./view.js');
+
 const parseResponse = (response, opt) => {
     const strings = [];
     strings.push(`${opt.options.method?opt.options.method:"GET"} ${opt.url}`);
